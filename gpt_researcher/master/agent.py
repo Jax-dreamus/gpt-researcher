@@ -78,7 +78,7 @@ class GPTResearcher:
         # Generate Sub-Queries including original query
         sub_queries = await get_sub_queries(query, self.role, self.cfg) + [query]
         await stream_output("logs",
-                            f"🧠 I will conduct my research based on the following queries: {sub_queries}...",
+                            f"🧠 다음과 같은 검색어로 정보를 검색 : {sub_queries}...",
                             self.websocket)
 
         # Run Sub-Queries
@@ -107,6 +107,7 @@ class GPTResearcher:
 
         return new_urls
 
+    # TODO: 이 함수는 검색을 해서 여러 기사들과 문서들 정보를 제공하고 있지만, embedding 거리가 가까운 문서들을 취합하여, 파싱하는 작업을 수행해야 함
     async def scrape_sites_by_query(self, sub_query):
         """
         Runs a sub-query
@@ -127,6 +128,7 @@ class GPTResearcher:
         scraped_content_results = scrape_urls(new_search_urls, self.cfg)
         return scraped_content_results
 
+    #TODO: 이 함수는 query에 관련된 여러 웹사이트 데이터 리스트를 가져와서 하나의 문서로 만드는 함수. 우리 문서로 여러 문서를 취합해야 할경우 비슷한 로직이 필요
     async def get_similar_content_by_query(self, query, pages):
         await stream_output("logs", f"📃 Getting relevant content based on query: {query}...", self.websocket)
         # Summarize Raw Data

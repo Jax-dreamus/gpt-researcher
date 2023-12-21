@@ -34,6 +34,7 @@ class TavilySearch():
                             "You can get a key at https://app.tavily.com")
         return api_key
 
+    # TODO: 인터넷 검색이 아닌 vector storage에서 관련된 문서를 꺼내와야 함.
     def search(self, max_results=7):
         """
         Searches the query
